@@ -24,5 +24,10 @@ return [
     ],
     "thumb"=>[
         "dir"=>"./Public/upload/"
+    ],
+    "test"=>[
+        "test_one"=>"one",
+        "test_two"=>"two",
+        "test_three"=>"three",
     ]
 ];
