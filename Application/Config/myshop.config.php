@@ -29,6 +29,7 @@ return [
         "test_one"=>"one",
         "test_two"=>"two",
         "test_three"=>"three",
-        "test_four"=>"four"
+        "test_four"=>"four",
+        "test_five"=>"five"
     ]
 ];
