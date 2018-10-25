@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <table border="1">
+            <tr><th>编号</th><th>书名</th><th>作者</th><th>发布时间</th><th>价格</th><th>删除</th></tr>
+            <?php
+            foreach($rows as $row):
+            ?>
+            <tr>
+                <td><?php echo $row['id']?></td>
+                <td><?php echo $row['bookName']?></td>
+                <td><?php echo $row['author']?></td>
+                <td><?php echo $row['publish']?></td>
+                <td><?php echo $row['price']?></td>
+                <td><a href="index.php?p=Admin&c=Book&a=del&id=<?php echo $row['id']?>">删除</a></td>
+            </tr>
+            <?php
+            endforeach;
+            ?>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,385 @@
+<!-- $Id: goods_info.htm 17126 2010-04-23 10:30:26Z liuhui $ -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ECSHOP 管理中心 - 添加新商品 </title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="./Public/styles/general.css" rel="stylesheet" type="text/css" />
+<link href="./Public/styles/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="./Public/js/transport.js"></script>
+<script type="text/javascript" src="./Public/js/common.js"></script>
+<script language="JavaScript">
+<!--
+// 这里把JS用到的所有语言都赋值到这里
+var process_request = "正在处理您的请求...";
+var todolist_caption = "记事本";
+var todolist_autosave = "自动保存";
+var todolist_save = "保存";
+var todolist_clear = "清除";
+var todolist_confirm_save = "是否将更改保存到记事本？";
+var todolist_confirm_clear = "是否清空内容？";
+var goods_name_not_null = "商品名称不能为空。";
+var goods_cat_not_null = "商品分类必须选择。";
+var category_cat_not_null = "分类名称不能为空";
+var brand_cat_not_null = "品牌名称不能为空";
+var goods_cat_not_leaf = "您选择的商品分类不是底级分类，请选择底级分类。";
+var shop_price_not_null = "本店售价不能为空。";
+var shop_price_not_number = "本店售价不是数值。";
+var select_please = "请选择...";
+var button_add = "添加";
+var button_del = "删除";
+var spec_value_not_null = "规格不能为空";
+var spec_price_not_number = "加价不是数字";
+var market_price_not_number = "市场价格不是数字";
+var goods_number_not_int = "商品库存不是整数";
+var warn_number_not_int = "库存警告不是整数";
+var promote_not_lt = "促销开始日期不能大于结束日期";
+var promote_start_not_null = "促销开始时间不能为空";
+var promote_end_not_null = "促销结束时间不能为空";
+var drop_img_confirm = "您确实要删除该图片吗？";
+var batch_no_on_sale = "您确实要将选定的商品下架吗？";
+var batch_trash_confirm = "您确实要把选中的商品放入回收站吗？";
+var go_category_page = "本页数据将丢失，确认要去商品分类页添加分类吗？";
+var go_brand_page = "本页数据将丢失，确认要去商品品牌页添加品牌吗？";
+var volume_num_not_null = "请输入优惠数量";
+var volume_num_not_number = "优惠数量不是数字";
+var volume_price_not_null = "请输入优惠价格";
+var volume_price_not_number = "优惠价格不是数字";
+var cancel_color = "无样式";
+//-->
+</script>
+</head>
+<body>
+
+<h1>
+<span class="action-span"><a href="index.php?p=Admin&c=Goods&a=list">商品列表</a></span>
+<span class="action-span1"><a href="index.php?act=main">ECSHOP 管理中心</a> </span><span id="search_id" class="action-span1"> - 添加新商品 </span>
+<div style="clear:both"></div>
+</h1>
+<script type="text/javascript" src="./Public/js/utils.js"></script>
+<script type="text/javascript" src="./Public/js/selectzone.js"></script>
+<script type="text/javascript" src="./Public/js/colorselector.js"></script>
+<script type="text/javascript" src="./Public/js/calendar.php?lang="></script>
+<link href="./Public/js/calendar/calendar.css" rel="stylesheet" type="text/css" />
+
+
+<!-- start goods form -->
+<div class="tab-div">
+    <!-- tab bar -->
+    <div id="tabbar-div">
+      <p>
+        <span class="tab-front" id="general-tab">通用信息</span><span
+        class="tab-back" id="mix-tab">其他信息</span><span
+        class="tab-back" id="gallery-tab">商品相册</span>
+      </p>
+    </div>
+
+    <!-- tab body -->
+    <div id="tabbody-div">
+      <form enctype="multipart/form-data" action="index.php?p=Admin&c=Goods&a=insert" method="post" name="theForm" >
+        <!-- 鏈€澶ф枃浠堕檺鍒 -->
+        <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+        <!-- 閫氱敤淇℃伅 -->
+        <table width="90%" id="general-table" align="center">
+          <tr>
+            <td class="label">商品名称：</td>
+            <td>
+                <input type="text" name="goodsName" value="" style="float:left;color:;" size="30" />
+            </td>
+          </tr>
+          <tr>
+            <td class="label">
+          商品货号： </td>
+            <td><input type="text" name="goodsNo" value="" size="20" onblur="checkGoodsSn(this.value,'0')" /></td>
+          </tr>
+          <tr>
+            <td class="label">商品分类：</td>
+            <td>
+                <select name="cateid" onchange="hideCatDiv()" >
+                    <?php
+                    foreach($rows as $row):
+                    ?>
+                    <option value="<?php echo $row['id']?>"><?php echo $row["fields"]?></option>
+                    <?php endforeach; ?>
+                </select>
+           </td>
+          </tr>
+          <tr>
+            <td class="label">本店售价：</td>
+            <td>
+                <input type="text" name="price" value="0" size="20" onblur="priceSetted()"/>
+            </td>
+          </tr>
+                    
+          
+          
+          <tr>
+            <td class="label">上传商品图片：</td>
+            <td>
+              <input type="file" name="upload1" size="35" />
+                              <img src="./Public/images/no.gif" />
+                            <br /><input type="text" size="40" value="商品图片外部URL" style="color:#aaa;" onfocus="if (this.value == '商品图片外部URL'){this.value='http://';this.style.color='#000';}" name="goods_img_url"/>
+            </td>
+          </tr>
+          <tr id="auto_thumb_1">
+            <td class="label"> 上传商品缩略图：</td>
+            <td id="auto_thumb_3">
+              <input type="file" name="thumb" size="35" />
+                              <img src="./Public/images/no.gif" />
+                            <br /><input type="text" size="40" value="商品缩略图外部URL" style="color:#aaa;" onfocus="if (this.value == '商品缩略图外部URL'){this.value='http://';this.style.color='#000';}" name="goods_thumb_url"/>
+                            <br /><label for="auto_thumb"><input type="checkbox" id="auto_thumb" name="auto_thumb" checked="true" value="1" onclick="handleAutoThumb(this.checked)" />自动生成商品缩略图</label>            </td>
+          </tr>
+        </table>
+
+        
+        <!-- 鍏朵粬淇℃伅 -->
+        <table width="90%" id="mix-table" style="display:none" align="center">
+                   
+           <tr>
+            <td class="label"><a href="javascript:showNotice('noticeStorage');" title="点击此处查看提示信息"><img src="./Public/images/notice.gif" width="16" height="16" border="0" alt="点击此处查看提示信息"></a> 商品库存数量：</td>
+<!--            <td><input type="text" name="goods_number" value="1" size="20"  /><br />-->
+            <td>
+                <input type="text" name="goodsNum" value="1" size="20" /><br />
+           </td>
+          </tr>
+         
+                    <tr>
+            <td class="label">加入推荐：</td>
+            <td>
+                <input type="checkbox" name="goodsStatus[]" value="1"  />精品
+                <input type="checkbox" name="goodsStatus[]" value="2"  />新品 
+                <input type="checkbox" name="goodsStatus[]" value="4"  />热销</td>
+          </tr>
+          
+        </table>
+
+        
+        
+        <!-- 鍟嗗搧鐩稿唽 -->
+        <table width="90%" id="gallery-table" style="display:none" align="center">
+          <!-- 鍥剧墖鍒楄〃 -->
+          <tr>
+            <td>
+                          </td>
+          </tr>
+          <tr><td>&nbsp;</td></tr>
+          <!-- 涓婁紶鍥剧墖 -->
+          <tr>
+            <td>
+              <a href="javascript:;" onclick="addImg(this)">[+]</a>
+              图片描述 <input type="text" name="img_desc[]" size="20" />
+              上传文件 <input type="file" name="img_url[]" />
+              <input type="text" size="40" value="或者输入外部图片链接地址" style="color:#aaa;" onfocus="if (this.value == '或者输入外部图片链接地址'){this.value='http://';this.style.color='#000';}" name="img_file[]"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="javascript:;" onclick="addImg(this)">[+]</a>
+              图片描述 <input type="text" name="img_desc[]" size="20" />
+              上传文件 <input type="file" name="img_url[]" />
+              <input type="text" size="40" value="或者输入外部图片链接地址" style="color:#aaa;" onfocus="if (this.value == '或者输入外部图片链接地址'){this.value='http://';this.style.color='#000';}" name="img_file[]"/>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="javascript:;" onclick="addImg(this)">[+]</a>
+              图片描述 <input type="text" name="img_desc[]" size="20" />
+              上传文件 <input type="file" name="img_url[]" />
+              <input type="text" size="40" value="或者输入外部图片链接地址" style="color:#aaa;" onfocus="if (this.value == '或者输入外部图片链接地址'){this.value='http://';this.style.color='#000';}" name="img_file[]"/>
+            </td>
+          </tr>
+        </table>
+
+        
+
+        <div class="button-div">
+          <input type="hidden" name="goods_id" value="0" />
+                    <input type="submit" value=" 确定 " class="button" onclick="validate('0')" />
+          <input type="reset" value=" 重置 " class="button" />
+        </div>
+        <input type="hidden" name="act" value="insert" />
+      </form>
+    </div>
+</div>
+<!-- end goods form -->
+<script type="text/javascript" src="./Public/js/validator.js"></script>
+<script type="text/javascript" src="./Public/js/tab.js"></script>
+
+<div id="footer">
+共执行 9 个查询，用时 0.018001 秒，Gzip 已禁用，内存占用 1.834 MB<br />
+版权所有 &copy; 2005-2012 上海商派网络科技有限公司，并保留所有权利。</div>
+<!-- 新订单提示信息 -->
+<div id="popMsg">
+  <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#cfdef4" border="0">
+  <tr>
+    <td style="color: #0f2c8c" width="30" height="24"></td>
+    <td style="font-weight: normal; color: #1f336b; padding-top: 4px;padding-left: 4px" valign="center" width="100%"> 新订单通知</td>
+    <td style="padding-top: 2px;padding-right:2px" valign="center" align="right" width="19"><span title="关闭" style="cursor: hand;cursor:pointer;color:red;font-size:12px;font-weight:bold;margin-right:4px;" onclick="Message.close()" >×</span><!-- <img title=关闭 style="cursor: hand" onclick=closediv() hspace=3 src="msgclose.jpg"> --></td>
+  </tr>
+  <tr>
+    <td style="padding-right: 1px; padding-bottom: 1px" colspan="3" height="70">
+    <div id="popMsgContent">
+      <p>您有 <strong style="color:#ff0000" id="spanNewOrder">1</strong> 个新订单以及       <strong style="color:#ff0000" id="spanNewPaid">0</strong> 个新付款的订单</p>
+      <p align="center" style="word-break:break-all"><a href="order.php?act=list"><span style="color:#ff0000">点击查看新订单</span></a></p>
+    </div>
+    </td>
+  </tr>
+  </table>
+</div>
+
+<!--
+<embed src="./Public/images/online.wav" width="0" height="0" autostart="false" name="msgBeep" id="msgBeep" enablejavascript="true"/>
+-->
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0" id="msgBeep" width="1" height="1">
+  <param name="movie" value="./Public/images/online.swf">
+  <param name="quality" value="high">
+  <embed src="./Public/images/online.swf" name="msgBeep" id="msgBeep" quality="high" width="0" height="0" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?p1_prod_version=shockwaveflash">
+  </embed>
+</object>
+
+<script language="JavaScript">
+document.onmousemove=function(e)
+{
+  var obj = Utils.srcElement(e);
+  if (typeof(obj.onclick) == 'function' && obj.onclick.toString().indexOf('listTable.edit') != -1)
+  {
+    obj.title = '点击修改内容';
+    obj.style.cssText = 'background: #278296;';
+    obj.onmouseout = function(e)
+    {
+      this.style.cssText = '';
+    }
+  }
+  else if (typeof(obj.href) != 'undefined' && obj.href.indexOf('listTable.sort') != -1)
+  {
+    obj.title = '点击对列表排序';
+  }
+}
+<!--
+
+
+var MyTodolist;
+function showTodoList(adminid)
+{
+  if(!MyTodolist)
+  {
+    var global = $import("../js/global.js","js");
+    global.onload = global.onreadystatechange= function()
+    {
+      if(this.readyState && this.readyState=="loading")return;
+      var md5 = $import("js/md5.js","js");
+      md5.onload = md5.onreadystatechange= function()
+      {
+        if(this.readyState && this.readyState=="loading")return;
+        var todolist = $import("js/todolist.js","js");
+        todolist.onload = todolist.onreadystatechange = function()
+        {
+          if(this.readyState && this.readyState=="loading")return;
+          MyTodolist = new Todolist();
+          MyTodolist.show();
+        }
+      }
+    }
+  }
+  else
+  {
+    if(MyTodolist.visibility)
+    {
+      MyTodolist.hide();
+    }
+    else
+    {
+      MyTodolist.show();
+    }
+  }
+}
+
+if (Browser.isIE)
+{
+  onscroll = function()
+  {
+    //document.getElementById('calculator').style.top = document.body.scrollTop;
+    document.getElementById('popMsg').style.top = (document.body.scrollTop + document.body.clientHeight - document.getElementById('popMsg').offsetHeight) + "px";
+  }
+}
+
+if (document.getElementById("listDiv"))
+{
+  document.getElementById("listDiv").onmouseover = function(e)
+  {
+    obj = Utils.srcElement(e);
+
+    if (obj)
+    {
+      if (obj.parentNode.tagName.toLowerCase() == "tr") row = obj.parentNode;
+      else if (obj.parentNode.parentNode.tagName.toLowerCase() == "tr") row = obj.parentNode.parentNode;
+      else return;
+
+      for (i = 0; i < row.cells.length; i++)
+      {
+        if (row.cells[i].tagName != "TH") row.cells[i].style.backgroundColor = '#F4FAFB';
+      }
+    }
+
+  }
+
+  document.getElementById("listDiv").onmouseout = function(e)
+  {
+    obj = Utils.srcElement(e);
+
+    if (obj)
+    {
+      if (obj.parentNode.tagName.toLowerCase() == "tr") row = obj.parentNode;
+      else if (obj.parentNode.parentNode.tagName.toLowerCase() == "tr") row = obj.parentNode.parentNode;
+      else return;
+
+      for (i = 0; i < row.cells.length; i++)
+      {
+          if (row.cells[i].tagName != "TH") row.cells[i].style.backgroundColor = '#FFF';
+      }
+    }
+  }
+
+  document.getElementById("listDiv").onclick = function(e)
+  {
+    var obj = Utils.srcElement(e);
+
+    if (obj.tagName == "INPUT" && obj.type == "checkbox")
+    {
+      if (!document.forms['listForm'])
+      {
+        return;
+      }
+      var nodes = document.forms['listForm'].elements;
+      var checked = false;
+
+      for (i = 0; i < nodes.length; i++)
+      {
+        if (nodes[i].checked)
+        {
+           checked = true;
+           break;
+         }
+      }
+
+      if(document.getElementById("btnSubmit"))
+      {
+        document.getElementById("btnSubmit").disabled = !checked;
+      }
+      for (i = 1; i <= 10; i++)
+      {
+        if (document.getElementById("btnSubmit" + i))
+        {
+          document.getElementById("btnSubmit" + i).disabled = !checked;
+        }
+      }
+    }
+  }
+
+}
+
+//-->
+</script>
+</body>
+</html>

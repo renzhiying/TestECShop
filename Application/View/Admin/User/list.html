@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <a href="index.php?p=Admin&c=User&a=add">添加用户</a>
+        <table border="1">
+            <tr><th>编号</th><th>姓名</th><th>密码</th><th>删除</th><th>编辑</th></tr>
+            <?php
+            foreach($rows as $row):
+            ?>
+            <tr>
+                <td><?php echo $row['id']?></td>
+                <td><?php echo $row['userName']?></td>
+                <td><?php echo $row['userPwd']?></td>
+                <td><a href="index.php?p=Admin&c=User&a=del&id=<?php echo $row['id']?>">删除</a></td>
+                <td><a href="index.php?p=Admin&c=User&a=edit&id=<?php echo $row['id']?>">修改</a></td>
+            </tr>
+            <?php
+            endforeach;
+            ?>
+        </table>
+    </body>
+</html>

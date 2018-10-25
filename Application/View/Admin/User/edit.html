@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+         <form action="index.php?p=Admin&c=User&a=update" method="post">
+             <input type="hidden" name="id" value="<?php echo $row['id'] ?>"/>
+             用户名<input type="text" name="userName" value="<?php echo $row['userName'] ?>"/><br/>
+                
+            密码<input type="text" name="userPwd" value="<?php echo $row['userPwd'] ?>"/><br/>
+            <input type="submit" value="提交"/>
+        </form>
+    </body>
+</html>
